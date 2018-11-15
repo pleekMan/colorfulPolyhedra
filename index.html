@@ -16,6 +16,7 @@
 
     <script src="js/libs/three.js"></script>
     <script src="js/GeometryCreator.js"></script>
+    <script src="js/libs/Tools.js"></script>
 
 
 </head>
@@ -25,6 +26,7 @@
 
         // EVENT LISTENERS
         document.addEventListener('mousedown', onMouseDown, false);
+        document.addEventListener("keypress", onKeyPressed, false);
 
         // SETUP - BEGIN
         var scene = new THREE.Scene();
@@ -40,6 +42,7 @@
         var frameCount = 0;
 
         var geoCreator = new GeometryCreator();
+        var tools = new Tools();
 
 
         // SETUP - END
@@ -56,10 +59,21 @@
         scene.add(new THREE.AxesHelper(10));
         scene.add(geoCreator.createCube());
 
-
+        var camSineMotion = 0;
 
         function draw() {
-            camera.position.z = 50;
+            camSineMotion += 0.005;
+            
+            //camera.position.z = Math.cos(camSineMotion) * camDistance;
+
+            camera.position.y = 10;
+            var camDistance = 50;
+            camera.position.x = Math.cos(camSineMotion) * camDistance;
+            camera.position.z = Math.sin(camSineMotion) * camDistance;
+
+            var newLookAt = new THREE.Vector3(0,0,0);
+            camera.lookAt(newLookAt);
+
             //cube.rotation.y = frameCount * 0.01;
         }
 
@@ -95,6 +109,23 @@
                     break;
             }
 
+        }
+
+        function onKeyPressed(key) {
+            //console.log("Event Input key: " + key);
+
+            var keyCode = key.keyCode;
+            console.log("KeyCode: " + keyCode);
+            var keyChar = String.fromCharCode(key.keyCode);
+            console.log("KeyChar: " + keyChar);
+
+
+            if (keyChar === " ") {
+                //console.log("U pressed the SpaceBar");
+                var ar = tools.map(5, 0, 10, 0, 1);
+                var newLookAt = new THREE.Vector3(Math.random() * 10, Math.random() * 10, 0);
+                camera.lookAt(newLookAt);
+            }
         }
 
     </script>

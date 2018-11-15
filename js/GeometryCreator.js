@@ -1,7 +1,6 @@
 class GeometryCreator{
 
-    constructor(){
-    }
+    constructor(){}
 
     create(typeOfGeometry){
         if(typeOfGeometry === "CUBE"){
@@ -19,9 +18,9 @@ class GeometryCreator{
         var max = 50;
         var min = -max;
         //geometry.position.x = Math.random() * ((max * 2) - min);
-        geometry.position.x = Math.random() * ((max * 2) - max);
-        geometry.position.y = Math.random() * ((max * 2) - max);
-        ESTA CUENTA ESTA MAL (HACER BIEN EL MAP() )
+        geometry.position.x = min +  ((max - min) * Math.random());
+        geometry.position.y = min +  ((max - min) * Math.random());
+        
         console.log(geometry.position.x);
         console.log(geometry.position.y);
         
