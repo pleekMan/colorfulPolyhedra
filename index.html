@@ -33,8 +33,8 @@
         window.addEventListener("load", onWinLoad, false);
 
         // DEV TOOLS
-        var stats;
-        initStatsPanel();
+        //var stats;
+        //initStatsPanel();
 
         // SETUP - BEGIN
         var scene = new THREE.Scene();
@@ -76,11 +76,8 @@
 
         function draw() {
             camSineMotion += 0.005;
-<<<<<<< HEAD
 
             //camera.position.z = Math.cos(camSineMotion) * camDistance;
-=======
->>>>>>> bb3b47e60cf74be6758632b2b5dcc1bbec67d80a
 
             /*
             camera.position.y = 10;
@@ -175,11 +172,13 @@
             gui.addColor(geoCreator, "color");
         }
 
+        /*
         function initStatsPanel() {
             stats = new Stats();
             stats.showPanel(0);
             document.body.appendChild(stats.dom);
         }
+        */
 
     </script>
 </body>
