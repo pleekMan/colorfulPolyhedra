@@ -58,7 +58,7 @@
         cube.position.x = -10;
         scene.add(cube);
         */
-        /// 
+        ///
         scene.add(new THREE.AxesHelper(10));
         scene.add(geoCreator.createCube());
 
@@ -81,12 +81,10 @@
         }
 
         function animate() {
-            stats.begin(); // statsPanel
 
             frameCount++;
             draw();
 
-            stats.begin(); // statsPanel
 
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
@@ -94,7 +92,7 @@
         }
         animate();
 
-        // EVENTS 
+        // EVENTS
         function onMouseDown(event) {
 
             event.preventDefault();
