@@ -17,8 +17,7 @@
     <script src="js/libs/three.js"></script>
     <script src="js/GeometryCreator.js"></script>
     <script src="js/libs/Tools.js"></script>
-
-
+    <script src="js/libs/stats.min.js"> </script>
 </head>
 
 <body>
@@ -27,6 +26,10 @@
         // EVENT LISTENERS
         document.addEventListener('mousedown', onMouseDown, false);
         document.addEventListener("keypress", onKeyPressed, false);
+
+        // DEV TOOLS
+        var stats;
+        initStatsPanel();
 
         // SETUP - BEGIN
         var scene = new THREE.Scene();
@@ -63,7 +66,7 @@
 
         function draw() {
             camSineMotion += 0.005;
-            
+
             //camera.position.z = Math.cos(camSineMotion) * camDistance;
 
             camera.position.y = 10;
@@ -71,17 +74,23 @@
             camera.position.x = Math.cos(camSineMotion) * camDistance;
             camera.position.z = Math.sin(camSineMotion) * camDistance;
 
-            var newLookAt = new THREE.Vector3(0,0,0);
+            var newLookAt = new THREE.Vector3(0, 0, 0);
             camera.lookAt(newLookAt);
 
             //cube.rotation.y = frameCount * 0.01;
         }
 
         function animate() {
+            stats.begin(); // statsPanel
+
             frameCount++;
             draw();
+
+            stats.begin(); // statsPanel
+
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
+
         }
         animate();
 
@@ -126,6 +135,12 @@
                 var newLookAt = new THREE.Vector3(Math.random() * 10, Math.random() * 10, 0);
                 camera.lookAt(newLookAt);
             }
+        }
+
+        function initStatsPanel() {
+            stats = new Stats();
+            stats.showPanel(0);
+            document.body.appendChild(stats.dom);
         }
 
     </script>
