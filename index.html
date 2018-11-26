@@ -17,6 +17,9 @@
     <script src="js/libs/three.js"></script>
     <script src="js/GeometryCreator.js"></script>
     <script src="js/libs/Tools.js"></script>
+    <script src="js/libs/OrbitControls.js"></script>
+    <script src="js/libs/dat.gui.min.js"></script>
+
 
 
 </head>
@@ -27,6 +30,7 @@
         // EVENT LISTENERS
         document.addEventListener('mousedown', onMouseDown, false);
         document.addEventListener("keypress", onKeyPressed, false);
+        window.addEventListener("load", onWinLoad, false);
 
         // SETUP - BEGIN
         var scene = new THREE.Scene();
@@ -37,6 +41,11 @@
         var renderer = new THREE.WebGLRenderer();
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(renderer.domElement);
+
+        // CAM ORBITER
+        var camOrbit = new THREE.OrbitControls(camera, renderer.domElement);
+        camera.position.set(0, 0, 100);
+        camOrbit.update(); // CALL AFTER MANUALLY SETTING THE CAMERA
 
         var mouse = new THREE.Vector3(0, 0, 0);
         var frameCount = 0;
@@ -63,9 +72,8 @@
 
         function draw() {
             camSineMotion += 0.005;
-            
-            //camera.position.z = Math.cos(camSineMotion) * camDistance;
 
+            /*            
             camera.position.y = 10;
             var camDistance = 50;
             camera.position.x = Math.cos(camSineMotion) * camDistance;
@@ -73,6 +81,7 @@
 
             var newLookAt = new THREE.Vector3(0,0,0);
             camera.lookAt(newLookAt);
+            */
 
             //cube.rotation.y = frameCount * 0.01;
         }
@@ -94,16 +103,15 @@
                 case 1: // left mouse click
                     mouse.x = event.clientX;
                     mouse.y = event.clientY;
-                    console.log("-| mouseX: " + mouse.x);
-                    console.log("-| mouseY: " + mouse.y);
+                    //console.log("-| mouseX: " + mouse.x);
+                    //console.log("-| mouseY: " + mouse.y);
 
                     //mouse.x = (event.clientX / window.innerWidth) * 2 - 1; // NORMALIZED -1 -> 1
                     //mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
-                    scene.add(geoCreator.createCube());
-                    scene.
+                    //scene.add(geoCreator.createCube());
 
-                        break;
+                    break;
 
                 case 3: // right mouse click
                     break;
@@ -125,7 +133,33 @@
                 var ar = tools.map(5, 0, 10, 0, 1);
                 var newLookAt = new THREE.Vector3(Math.random() * 10, Math.random() * 10, 0);
                 camera.lookAt(newLookAt);
+                //camOrbit.update();
             }
+        }
+
+        // OTHER FUNCTIONS
+
+        // CONTENTS OF GUI CONTROLS (THEAY ARE THEN CREATED/ADDED ON onWinLoad() )
+        var guiControlContents = function () {
+            this.addBox = function () {
+                scene.add(geoCreator.createCube());
+            }
+            //this.color1 = [255, 127, 0];
+            /*
+            this.message = 'dat.gui';
+            this.speed = 0.8;
+            this.displayOutline = false;
+            this.explode = function () { ... };
+            // Define render logic ...
+            */
+        }
+
+        function onWinLoad() {
+            var controls = new guiControlContents();
+            var gui = new dat.GUI();
+
+            gui.add(controls, "addBox")
+            gui.addColor(geoCreator, "color");
         }
 
     </script>
