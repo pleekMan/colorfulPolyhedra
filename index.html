@@ -16,6 +16,7 @@
 
     <script src="js/libs/three.js"></script>
     <script src="js/GeometryCreator.js"></script>
+    <script src="js/Figure.js"></script>
     <script src="js/libs/Tools.js"></script>
     <script src="js/libs/OrbitControls.js"></script>
     <script src="js/libs/dat.gui.min.js"></script>
@@ -44,7 +45,7 @@
 
         // CAM ORBITER
         var camOrbit = new THREE.OrbitControls(camera, renderer.domElement);
-        camera.position.set(0, 0, 100);
+        camera.position.set(0, 0, 20);
         camOrbit.update(); // CALL AFTER MANUALLY SETTING THE CAMERA
 
         var mouse = new THREE.Vector3(0, 0, 0);
@@ -65,8 +66,15 @@
         scene.add(cube);
         */
         /// 
-        scene.add(new THREE.AxesHelper(10));
+        scene.add(new THREE.AxesHelper(0.5));
         scene.add(geoCreator.createCube());
+        
+        geoCreator.size = 1;
+        scene.add(geoCreator.createOblongFigure(1));
+        
+        var newFig = new Figure(geoCreator.createOblongFigure(3));
+        scene.add(newFig.getFigure());
+
 
         var camSineMotion = 0;
 
