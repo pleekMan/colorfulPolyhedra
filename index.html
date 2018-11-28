@@ -33,6 +33,10 @@
         document.addEventListener("keypress", onKeyPressed, false);
         window.addEventListener("load", onWinLoad, false);
 
+        // DEV TOOLS
+        //var stats;
+        //initStatsPanel();
+
         // SETUP - BEGIN
         var scene = new THREE.Scene();
         var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -81,13 +85,15 @@
         function draw() {
             camSineMotion += 0.005;
 
-            /*            
+            //camera.position.z = Math.cos(camSineMotion) * camDistance;
+
+            /*
             camera.position.y = 10;
             var camDistance = 50;
             camera.position.x = Math.cos(camSineMotion) * camDistance;
             camera.position.z = Math.sin(camSineMotion) * camDistance;
 
-            var newLookAt = new THREE.Vector3(0,0,0);
+            var newLookAt = new THREE.Vector3(0, 0, 0);
             camera.lookAt(newLookAt);
             */
 
@@ -95,14 +101,18 @@
         }
 
         function animate() {
+
             frameCount++;
             draw();
+
+
             requestAnimationFrame(animate);
             renderer.render(scene, camera);
+
         }
         animate();
 
-        // EVENTS 
+        // EVENTS
         function onMouseDown(event) {
 
             event.preventDefault();
@@ -169,6 +179,14 @@
             gui.add(controls, "addBox")
             gui.addColor(geoCreator, "color");
         }
+
+        /*
+        function initStatsPanel() {
+            stats = new Stats();
+            stats.showPanel(0);
+            document.body.appendChild(stats.dom);
+        }
+        */
 
     </script>
 </body>
