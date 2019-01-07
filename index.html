@@ -22,12 +22,10 @@
     <script src="js/libs/dat.gui.min.js"></script>
 
 
-
 </head>
 
 <body>
     <script>
-
         // EVENT LISTENERS
         document.addEventListener('mousedown', onMouseDown, false);
         document.addEventListener("keypress", onKeyPressed, false);
@@ -58,7 +56,12 @@
         var geoCreator = new GeometryCreator();
         var tools = new Tools();
 
+        // DISC ROTATOR
+        var discRotator;
+        var discRotation = -0.01;
 
+
+        buildProps();
         // SETUP - END
 
         ///
@@ -70,12 +73,12 @@
         scene.add(cube);
         */
         /// 
-        scene.add(new THREE.AxesHelper(0.5));
-        scene.add(geoCreator.createCube());
-        
+
+        //scene.add(geoCreator.createCube());
+
         geoCreator.size = 1;
         scene.add(geoCreator.createOblongFigure(1));
-        
+
         var newFig = new Figure(geoCreator.createOblongFigure(3));
         scene.add(newFig.getFigure());
 
@@ -85,6 +88,10 @@
         function draw() {
             camSineMotion += 0.005;
 
+            discRotator.rotateY(discRotation);
+            // GETTING THE ROTATION (not everly incremental = when reaching TWO_PI, goes back to 0)
+            //console.log(discRotator.rotation.y);
+
             //camera.position.z = Math.cos(camSineMotion) * camDistance;
 
             /*
@@ -92,7 +99,7 @@
             var camDistance = 50;
             camera.position.x = Math.cos(camSineMotion) * camDistance;
             camera.position.z = Math.sin(camSineMotion) * camDistance;
-
+       
             var newLookAt = new THREE.Vector3(0, 0, 0);
             camera.lookAt(newLookAt);
             */
@@ -100,13 +107,39 @@
             //cube.rotation.y = frameCount * 0.01;
         }
 
+        function buildProps() {
+
+            // World Origin
+            var discOrigin = new THREE.AxesHelper(3);
+            scene.add(discOrigin);
+
+            // DISC ROTATOR 
+            buildDiscRotator(2,5);
+
+
+        }
+
+        function buildDiscRotator(laneWidth, laneCount) {
+            discRotator = new THREE.Object3D();
+
+            for (let i = 0; i < laneCount; i++) {
+                var ah = new THREE.AxesHelper(laneWidth * 0.25);
+                ah.translateX(laneWidth * i);
+                discRotator.add(ah); // ADDING ALL AXES AS CHILD OF THE MAIN DISC ROTATOR
+            }
+
+            scene.add(discRotator);
+        }
+
         function animate() {
 
             frameCount++;
             draw();
 
+            setTimeout(function () {
+                requestAnimationFrame(animate);
+            }, 1000 / 60); // 60 FPS
 
-            requestAnimationFrame(animate);
             renderer.render(scene, camera);
 
         }
@@ -182,12 +215,11 @@
 
         /*
         function initStatsPanel() {
-            stats = new Stats();
-            stats.showPanel(0);
-            document.body.appendChild(stats.dom);
+             stats = new Stats();
+             stats.showPanel(0);
+             document.body.appendChild(stats.dom);
         }
         */
-
     </script>
 </body>
 
